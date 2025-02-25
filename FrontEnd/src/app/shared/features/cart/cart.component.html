@@ -1,0 +1,60 @@
+<div class="surface-section px-4 py-6 md:px-6 lg:px-8">
+  <div class="border-left-2 border-blue-500 mb-4">
+        <span class="bg-white text-blue-500 font-bold text-2xl inline-block px-3">
+            <i class="pi pi-shopping-cart text-2xl"></i>
+            <span class="font-bold ml-3 text-4xl text-900 ">Panier</span>
+        </span>
+  </div>
+
+  <li class="flex justify-content-between px-4 py-3 -mx-1 border-round border-2 border-200">
+    <span class="text-xl text-900 font-bold text-3xl">Total</span>
+    <span class="text-xl text-900 font-bold text-3xl">{{ cartTotalPrice() }} Dhs</span>
+  </li>
+  <ul class="list-none p-0 m-0">
+    @for (product of cart(); track $index) {
+      <li class="flex flex-column gap-6 md:flex-row py-6 border-bottom-2 border-2000 md:align-items-start">
+
+        <div class="flex-auto">
+          <div
+            class="flex flex-wrap align-items-start sm:align-items-start sm:flex-row sm:justify-content-between surface-border pb-6">
+            <div class="w-full sm:w-6 flex flex-column">
+              <div class="flex flex-column gap-1">
+                <div class="text-900 font-medium text-xl">{{ product.name }}</div>
+                <div class="flex flex-grow-1 gap-2">
+                  <i class="pi pi-tag text-600"></i>
+                  <span class="text-600">Catégorie : {{ product.category }}</span>
+                </div>
+                <div class="flex gap-2">
+                  <i class="pi pi-star-fill text-yellow-500"></i>
+                  <span class="text-600">Note moyenne : {{ product.rating }} / 10</span>
+                </div>
+
+                <div class="flex gap-2">
+                  <div [ngSwitch]="product.inventoryStatus">
+                                    <span *ngSwitchCase="'INSTOCK'"
+                                          class="bg-green-100 text-green-700 border-round inline-flex py-1 px-2 text-sm">En
+                                        stock</span>
+                    <span *ngSwitchCase="'LOWSTOCK'"
+                          class="bg-orange-100 text-orange-700 border-round inline-flex py-1 px-2 text-sm">Stocks
+                                        bientôt épuisés</span>
+                    <span *ngSwitchCase="'OUTOFSTOCK'"
+                          class="bg-pink-100 text-pink-700 border-round inline-flex py-1 px-2 text-sm">Stocks
+                                        épuisés</span>
+                    <span *ngSwitchDefault></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="w-full sm:w-6 justify-content-between mt-3 sm:mt-0">
+              <div class="flex flex-column sm:align-items-end">
+                <span class="text-900 text-2xl font-medium mb-2 sm:mb-3">{{ product.price }} Dhs</span>
+                <p-button label="Retirer du panier" severity="danger" (onClick)="onDelete($index)"
+                          outlined="true" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    }
+  </ul>
+</div>

@@ -1,0 +1,49 @@
+<!-- Partie 2 -- Créer une page "Contact" affichant un formulaire -->
+<div class="surface-section px-4 py-6 md:px-6 lg:px-8">
+  <div class="border-left-2 border-blue-500 mb-4">
+        <span class="bg-white text-blue-500 font-bold text-2xl inline-block px-3">
+          <i class="pi pi-envelope text-3xl"></i>
+          <span class="font-bold ml-3 text-4xl text-900 ">Contactez nous</span>
+        </span>
+  </div>
+  <!-- Partie 2 - Le formulaire doit permettre de saisir son email, un message et de cliquer sur "Envoyer" -->
+   <div class="row">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="md:col-8 xl:col-6 p-fluid">
+      <div class="field">
+        <label for="email" class="font-medium">Email</label>
+        <input type="email" formControlName="email" required id="email" class="p-inputtext p-component p-element">
+        <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+          <span class="text-pink-500 text-sm"
+                *ngIf="contactForm.get('email')?.errors?.required">Champs obligatoire</span>
+          <span class="text-pink-500 text-sm" *ngIf="contactForm.get('email')?.errors?.email">Format d'email est invalide</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="message" class="font-medium">Message</label>
+        <textarea id="message" formControlName="message" rows="6"
+                  class="p-inputtextarea p-inputtext p-component p-element p-inputtextarea-resizable"
+                  formControlName="message"></textarea>
+        <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+                    <span class="text-pink-500 text-sm" *ngIf="contactForm.get('message')?.errors?.required">Champs
+                        obligatoire</span>
+          <!-- Partie 2 Email et message doivent être obligatoirement remplis, message doit être inférieur à 300 caractères. -->
+
+          <span class="text-pink-500 text-sm" *ngIf="contactForm.get('message')?.errors?.maxlength">
+                        Votre message ne doit pas dépassé 300 caractères
+                    </span>
+        </div>
+        <span class="text-sm"
+              [ngClass]="{'text-pink-500': (remainingChars() < 0), 'text-500': (remainingChars() >= 0)}">{{
+            remainingChars()
+          }}</span>
+      </div>
+      <button type="submit" [disabled]="contactForm.invalid" (click)="onSubmit()" label="Envoyer message"
+              icon="pi pi-send" class="p-element p-ripple w-auto p-button p-component">
+        <span class="p-button-icon p-button-icon-left pi pi-send" aria-hidden="true"></span>
+        <span class="p-button-label">Envoyer</span>
+        <span class="p-ink"></span>
+      </button>
+    </form>
+  </div>
+</div>
